@@ -1,4 +1,4 @@
-
+<script src="src/assets/js/remaining-time-home.js"></script>
 <div id="main">
   <div id="slider">
     <div class="text-slider">
@@ -132,7 +132,7 @@
           <div class="col-xl-3 col-md-6 col-lg-4 col-sm-6" *ngFor="let product of products">
             <div class="product-auction">
               <div class="product-counter-inner">
-                <div>REMAINING TIME: <span style="color: #fff;">00:09:50</span></div>
+                <div>REMAINING TIME: <span style="color: #fff;" id="time-remain">{{product.remainingTime}}</span></div>
               </div>
               <div class="product-image">
 <!--                <a href="/"><img src="https://firebasestorage.googleapis.com/v0/b/a0721i1.appspot.com/o/A0721I1-croissant-trung-muoi_880850.jpg?alt=media&token=6c43c7ca-a6a9-4550-8b3c-44ce5832b12d" alt="Flycame"></a>-->

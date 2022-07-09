@@ -1,3 +1,5 @@
+import DateTimeFormat = Intl.DateTimeFormat;
+
 export interface Product {
   idProduct: number;
   codeProduct: string;

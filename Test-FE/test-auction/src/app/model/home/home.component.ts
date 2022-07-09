@@ -26,8 +26,10 @@ export class HomeComponent implements OnInit {
   nameProductSearch: string;
   // tslint:disable-next-line:ban-types
   messageAlert: String[];
-  remainingTime: DateTimeFormat;
-
+  // tslint:disable-next-line:ban-types
+   endDay: String[];
+  // tslint:disable-next-line:ban-types
+  private countDownDate: String[];
 
   constructor(private homeService: HomeServiceService, private activatedRoute: ActivatedRoute, private router: Router) {
   }
@@ -44,10 +46,46 @@ export class HomeComponent implements OnInit {
   showListProductAuction() {
     this.homeService.showListProductAuction().subscribe(
       (data) => {
-        this.products = data;
-        for (let i=0; i< this.products.length; i++) {
-          console.log(this.products[i].remainingTime );
+        // tslint:disable-next-line:prefer-const
+        var products = [];
+        products = this.products = data;
+        for (let i = 0; i < products.length; i++) {
+          var num = i;
+          // tslint:disable-next-line:prefer-const
+          var countDownDate: number[] = [];
+          countDownDate[i] = new Date(this.products[i].endDate).getTime();
+          console.log(countDownDate[i]);
+// Update the count down every 1 second
+          // tslint:disable-next-line:only-arrow-functions
+            var x = setInterval(function() {
+            for (let i = 0; i < countDownDate.length; i++) {
+              console.log(countDownDate[0]);
+              // Get today's date and time
+              var now = new Date().getTime();
+              // Find the distance between now and the count down date
+              var distance = [];
+              products[i].remainingTime = distance[i] = countDownDate[i] - now;
+
+
+
+              // Time calculations for days, hours, minutes and seconds
+              var days = Math.floor(distance[i] / (1000 * 60 * 60 * 24));
+              var hours = Math.floor((distance[i] % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              var minutes = Math.floor((distance[i] % (1000 * 60 * 60)) / (1000 * 60));
+              var seconds = Math.floor((distance[i] % (1000 * 60)) / 1000);
+              // Display the result in the element with id="demo"
+              document.getElementById("time-remain").innerHTML = days + "d " + hours + "h "
+                + minutes + "m " + seconds + "s ";
+              // If the count down is finished, write some text
+              if (distance[i] < 0) {
+                clearInterval(x);
+                document.getElementById("time-remain").innerHTML = "Finished";
+              }
+            }
+
+          }.bind(num), 1000);
         }
+
         if (this.nameProductSearch != null) {
           this.nameProductSearch = '';
         }
@@ -106,7 +144,7 @@ export class HomeComponent implements OnInit {
         this.messageAlert.push('The product name cannot contain special characters(!@#$%^&*)');
         this.showListProductAuction();
       }
-    }else {
+    } else {
       // @ts-ignore
       $('#myModal').modal('hide');
     }
@@ -145,7 +183,7 @@ export class HomeComponent implements OnInit {
           console.log(data);
         }
       );
-    }else {
+    } else {
       this.homeService.searchListProductByPriceOver250(nameProduct, typeProductName, this.min).subscribe(
         (data) => {
           this.products = data;
