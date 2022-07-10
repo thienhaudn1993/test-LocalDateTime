@@ -172,4 +172,67 @@ public class Product {
     public void setBiddingStatus(BiddingStatus biddingStatus) {
         this.biddingStatus = biddingStatus;
     }
+
+//    ------ Phương thức thời gian ------
+//    /* Get year*/
+//    public int getYearCurrently(String time) {
+//        String year = time.substring(0, time.indexOf('-')).trim();
+//        return Integer.parseInt(year);
+//    }
+//
+//    /* Get month */
+//    public int getMonthCurrently(String time) {
+//        int placeFirst = time.indexOf('-');
+//        int place =  time.indexOf('-' , placeFirst + 1);
+//        String month = time.substring(placeFirst + 1, place).trim();
+//        return Integer.parseInt(month);
+//    }
+//
+//    /* Get day */
+//    public int getDayCurrently(String time) {
+//        int placeFirst = time.indexOf('-');
+//        placeFirst =  time.indexOf('-' , placeFirst + 1);
+//
+//        int place = time.indexOf(' ');
+//        String day = time.substring(placeFirst + 1, place).trim();
+//        return Integer.parseInt(day);
+//    }
+//
+//    /* Get hour */
+//    public int getHourCurrently(String time) {
+//        int placeFirst = time.indexOf(' ');
+//
+//        int place = time.indexOf(':');
+//        String hour = time.substring(placeFirst, place).trim();
+//        return Integer.parseInt(hour);
+//    }
+//
+//    /* Get minute */
+//    public int getMinuteCurrently(String time) {
+//        int placeFirst = time.indexOf(':');
+//
+//        int place = time.indexOf(':');
+//        place = time.indexOf(':' , place + 1);
+//        String minute = time.substring(placeFirst+1, place).trim();
+//        return Integer.parseInt(minute);
+//    }
+//
+//    /* Get second */
+//    public int getSecondCurrently(String time) {
+//        int placeFirst = time.indexOf(':');
+//        placeFirst = time.indexOf(':' , placeFirst + 1);
+//        placeFirst = time.indexOf(':' , placeFirst);
+//
+//        String second = time.substring(placeFirst+1).trim();
+//        return Integer.parseInt(second);
+//    }
+//
+//    /* Calculate remain time */
+//    public int getRemainTime(int end , int now) {
+//        int total = end - now;
+//        if(total < 0) {
+//            return end;
+//        }
+//        return end - now;
+//    }
 }

@@ -23,8 +23,7 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
             " inner join BiddingStatus on Product.id_bidding_status = BiddingStatus.id_bidding_status \n" +
             " inner join ImageProduct on Product.id_product = ImageProduct.id_product\n" +
             " inner join ApprovalStatus on Product.id_approval_status = ApprovalStatus.id_approval_status\n" +
-            " where (not BiddingStatus.name_bidding_status= \"auction\")\n" +
-            " and ApprovalStatus.name_approval_status = \"posted\"\n" +
+            " where ApprovalStatus.name_approval_status = \"posted\"\n" +
             " and (Product.end_date <now()) \n" +
             " order by Product.end_date desc", nativeQuery = true)
     List<Product> findAllProductFinishedAuction();
