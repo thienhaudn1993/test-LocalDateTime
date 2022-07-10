@@ -106,7 +106,7 @@ export class HomeComponent implements OnInit {
                 clearInterval(x);
                 products[j].remainingTime = document.getElementById('time-remain').innerHTML = 'FINISHED';
               }
-            }, 1000 *0.15*j);
+            }, 1000 *0.1*j);
           })(j);
           // }
         }
