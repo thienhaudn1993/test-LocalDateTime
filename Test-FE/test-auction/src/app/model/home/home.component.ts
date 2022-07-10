@@ -23,13 +23,10 @@ export class HomeComponent implements OnInit {
   typeProductName: string;
   formSearch: FormGroup;
   flagCheck = false;
+  checkFinished = false;
   nameProductSearch: string;
   // tslint:disable-next-line:ban-types
   messageAlert: String[];
-  // tslint:disable-next-line:ban-types
-   endDay: String[];
-  // tslint:disable-next-line:ban-types
-  private countDownDate: String[];
 
   constructor(private homeService: HomeServiceService, private activatedRoute: ActivatedRoute, private router: Router) {
   }
@@ -47,45 +44,8 @@ export class HomeComponent implements OnInit {
     this.homeService.showListProductAuction().subscribe(
       (data) => {
         // tslint:disable-next-line:prefer-const
-        var products = [];
-        products = this.products = data;
-        for (let i = 0; i < products.length; i++) {
-          var num = i;
-          // tslint:disable-next-line:prefer-const
-          var countDownDate: number[] = [];
-          countDownDate[i] = new Date(this.products[i].endDate).getTime();
-          console.log(countDownDate[i]);
-// Update the count down every 1 second
-          // tslint:disable-next-line:only-arrow-functions
-            var x = setInterval(function() {
-            for (let i = 0; i < countDownDate.length; i++) {
-              console.log(countDownDate[0]);
-              // Get today's date and time
-              var now = new Date().getTime();
-              // Find the distance between now and the count down date
-              var distance = [];
-              products[i].remainingTime = distance[i] = countDownDate[i] - now;
-
-
-
-              // Time calculations for days, hours, minutes and seconds
-              var days = Math.floor(distance[i] / (1000 * 60 * 60 * 24));
-              var hours = Math.floor((distance[i] % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-              var minutes = Math.floor((distance[i] % (1000 * 60 * 60)) / (1000 * 60));
-              var seconds = Math.floor((distance[i] % (1000 * 60)) / 1000);
-              // Display the result in the element with id="demo"
-              document.getElementById("time-remain").innerHTML = days + "d " + hours + "h "
-                + minutes + "m " + seconds + "s ";
-              // If the count down is finished, write some text
-              if (distance[i] < 0) {
-                clearInterval(x);
-                document.getElementById("time-remain").innerHTML = "Finished";
-              }
-            }
-
-          }.bind(num), 1000);
-        }
-
+        this.products = data;
+        // this.showListAuntionWithTime();
         if (this.nameProductSearch != null) {
           this.nameProductSearch = '';
         }
@@ -95,9 +55,190 @@ export class HomeComponent implements OnInit {
         console.log('Error product list');
       },
       () => {
+        this.showListAuntionWithTime();
+        this.checkFinished = false;
       }
     );
   }
+
+  showListAuntionWithTime() {
+    this.homeService.showListProductAuction().subscribe(
+      (data) => {
+        // tslint:disable-next-line:prefer-const
+        let products = [];
+        // tslint:disable-next-line:prefer-const
+        let countDownDate: number[] = [];
+        products = this.products = data;
+        for (let i = 0; i < products.length; i++) {
+          // tslint:disable-next-line:prefer-const
+          countDownDate[i] = new Date(this.products[i].endDate).getTime();
+          console.log(i + '//' + this.products[i].endDate);
+          console.log(countDownDate[i]);
+        }
+        console.log(countDownDate);
+// Update the count down every 1 second
+        // tslint:disable-next-line:only-arrow-functions no-shadowed-variable prefer-const
+        // for (let i = 0; i < countDownDate.length; i++) {
+
+        for (let j = 0; j < countDownDate.length; j++) {
+          // tslint:disable-next-line:only-arrow-functions no-shadowed-variable
+          (function(j){
+            // tslint:disable-next-line:only-arrow-functions
+            var x = window.setInterval(function() {
+              // console.log(countDownDate[j]);
+              // Get today's date and time
+              var now = new Date().getTime();
+              // console.log(now);
+              // Find the distance between now and the count down date
+              var distance = [];
+              // console.log(countDownDate[0]);
+              distance[j] = countDownDate[j] - now;
+              // Time calculations for days, hours, minutes and seconds
+              var days = Math.floor(distance[j] / (1000 * 60 * 60 * 24));
+              var hours = Math.floor((distance[j] % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              var minutes = Math.floor((distance[j] % (1000 * 60 * 60)) / (1000 * 60));
+              var seconds = Math.floor((distance[j] % (1000 * 60)) / 1000);
+              // Display the result in the element with id="demo"
+              products[j].remainingTime = document.getElementById('time-remain').innerHTML = days + 'd ' + hours + 'h '
+                + minutes + 'm ' + seconds + 's ';
+              // If the count down is finished, write some text
+              if (distance[j] < 0) {
+                clearInterval(x);
+                products[j].remainingTime = document.getElementById('time-remain').innerHTML = 'FINISHED';
+              }
+            }, 1000 *0.15*j);
+          })(j);
+          // }
+        }
+
+        if (this.nameProductSearch != null) {
+          this.nameProductSearch = '';
+        }
+        // console.log(data);
+      },
+    );
+  }
+
+//   showListAuntionWithTime() {
+//     this.homeService.showListProductAuction().subscribe(
+//       (data) => {
+//         // tslint:disable-next-line:prefer-const
+//         let products = [];
+//         // tslint:disable-next-line:prefer-const
+//         let countDownDate: number[] = [];
+//         products = this.products = data;
+//         for (let i = 0; i < products.length; i++) {
+//           // tslint:disable-next-line:prefer-const
+//           countDownDate[i] = new Date(this.products[i].endDate).getTime();
+//           console.log(i + '//' + this.products[i].endDate);
+//           console.log(countDownDate[i]);
+//         }
+//         console.log(countDownDate);
+// // Update the count down every 1 second
+//         // tslint:disable-next-line:only-arrow-functions no-shadowed-variable prefer-const
+//         // for (let i = 0; i < countDownDate.length; i++) {
+//
+//         // for (let j = 0; j < countDownDate.length; j++) {
+//         // tslint:disable-next-line:only-arrow-functions no-shadowed-variable
+//         let j = 0;
+//         // tslint:disable-next-line:only-arrow-functions
+//         const x = setInterval(function() {
+//           const distance = [];
+//           if ( j < countDownDate.length) {
+//             // console.log(countDownDate[j]);
+//             // Get today's date and time
+//             const now = new Date().getTime();
+//             // console.log(now);
+//             // Find the distance between now and the count down date
+//             // console.log(countDownDate[0]);
+//             distance[j] = countDownDate[j] - now;
+//             // Time calculations for days, hours, minutes and seconds
+//             const days = Math.floor(distance[j] / (1000 * 60 * 60 * 24));
+//             const hours = Math.floor((distance[j] % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+//             const minutes = Math.floor((distance[j] % (1000 * 60 * 60)) / (1000 * 60));
+//             const seconds = Math.floor((distance[j] % (1000 * 60)) / 1000);
+//             // Display the result in the element with id="demo"
+//             products[j].remainingTime = document.getElementById('time-remain').innerHTML = days + 'd ' + hours + 'h '
+//               + minutes + 'm ' + seconds + 's ';
+//           }
+//           j++;
+//           if (distance[j] < 0) {
+//             clearInterval(x);
+//             products[j].remainingTime = document.getElementById('time-remain').innerHTML = 'Finished';
+//           }
+//           // If the count down is finished, write some text
+//         }, 1000);
+//         // }
+//         // }
+//
+//         if (this.nameProductSearch != null) {
+//           this.nameProductSearch = '';
+//         }
+//         // console.log(data);
+//       },
+//     );
+//   }
+
+  showListAuntionFinishedWithTime() {
+    this.homeService.showListProductFinished().subscribe(
+      (data) => {
+        // tslint:disable-next-line:prefer-const
+        let products = [];
+        const countDownDate: number[] = [];
+        products = this.products = data;
+        for (let i = 0; i < products.length; i++) {
+          // tslint:disable-next-line:prefer-const
+          countDownDate[i] = new Date(this.products[i].endDate).getTime();
+          console.log(i + '//' + this.products[i].endDate);
+          console.log(countDownDate[i]);
+        }
+        console.log(countDownDate);
+// Update the count down every 1 second
+        // tslint:disable-next-line:only-arrow-functions no-shadowed-variable prefer-const
+        // for (let i = 0; i < countDownDate.length; i++) {
+
+        for (let j = 0; j < countDownDate.length; j++) {
+          // tslint:disable-next-line:only-arrow-functions no-shadowed-variable
+          (function(j) {
+            // tslint:disable-next-line:only-arrow-functions
+            const x = setInterval(function() {
+              // console.log(countDownDate[j]);
+              // Get today's date and time
+              const now = new Date().getTime();
+              // console.log(now);
+              // Find the distance between now and the count down date
+              const distance = [];
+              // console.log(countDownDate[0]);
+              distance[j] = countDownDate[j] - now;
+              console.log(distance[j]);
+              // Time calculations for days, hours, minutes and seconds
+              const days = Math.floor(distance[j] / (1000 * 60 * 60 * 24));
+              const hours = Math.floor((distance[j] % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              const minutes = Math.floor((distance[j] % (1000 * 60 * 60)) / (1000 * 60));
+              const seconds = Math.floor((distance[j] % (1000 * 60)) / 1000);
+
+              // If the count down is finished, write some text
+              if (distance[j] < 0) {
+                clearInterval(x);
+                products[j].remainingTime = document.getElementById('time-remain').innerHTML = 'FINISHED';
+              } else {
+                // Display the result in the element with id="demo"
+                products[j].remainingTime = document.getElementById('time-remain').innerHTML = days + 'd ' + hours + 'h '
+                  + minutes + 'm ' + seconds + 's ';
+              }
+            }, 1000);
+          })(j);
+          // }
+        }
+
+        if (this.nameProductSearch != null) {
+          this.nameProductSearch = '';
+        }
+        // console.log(data);
+      },
+    );
+  }
+
 
   showListProductFinished() {
     this.homeService.showListProductFinished().subscribe(
@@ -111,10 +252,70 @@ export class HomeComponent implements OnInit {
         console.log('Error list finished product');
       },
       () => {
+        this.showListAuntionFinishedWithTime();
+        this.checkFinished = true;
       }
     );
   }
+  showListSortAuntionWithTime(typeProductName: string) {
+    this.homeService.sortListProductByTypeProduct(typeProductName).subscribe(
+      (data) => {
+        // tslint:disable-next-line:prefer-const
+        let products = [];
+        const countDownDate: number[] = [];
+        products = this.products = data;
+        for (let i = 0; i < products.length; i++) {
+          // tslint:disable-next-line:prefer-const
+          countDownDate[i] = new Date(this.products[i].endDate).getTime();
+          console.log(i + '//' + this.products[i].endDate);
+          console.log(countDownDate[i]);
+        }
+        console.log(countDownDate);
+// Update the count down every 1 second
+        // tslint:disable-next-line:only-arrow-functions no-shadowed-variable prefer-const
+        // for (let i = 0; i < countDownDate.length; i++) {
 
+        for (let j = 0; j < countDownDate.length; j++) {
+          // tslint:disable-next-line:only-arrow-functions no-shadowed-variable
+          (function(j) {
+            // tslint:disable-next-line:only-arrow-functions
+            const x = setInterval(function() {
+              // console.log(countDownDate[j]);
+              // Get today's date and time
+              const now = new Date().getTime();
+              // console.log(now);
+              // Find the distance between now and the count down date
+              const distance = [];
+              // console.log(countDownDate[0]);
+              distance[j] = countDownDate[j] - now;
+              console.log(distance[j]);
+              // Time calculations for days, hours, minutes and seconds
+              const days = Math.floor(distance[j] / (1000 * 60 * 60 * 24));
+              const hours = Math.floor((distance[j] % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              const minutes = Math.floor((distance[j] % (1000 * 60 * 60)) / (1000 * 60));
+              const seconds = Math.floor((distance[j] % (1000 * 60)) / 1000);
+
+              // If the count down is finished, write some text
+              if (distance[j] < 0) {
+                clearInterval(x);
+                products[j].remainingTime = document.getElementById('time-remain').innerHTML = 'FINISHED';
+              } else {
+                // Display the result in the element with id="demo"
+                products[j].remainingTime = document.getElementById('time-remain').innerHTML = days + 'd ' + hours + 'h '
+                  + minutes + 'm ' + seconds + 's ';
+              }
+            }, 1000);
+          })(j);
+          // }
+        }
+
+        if (this.nameProductSearch != null) {
+          this.nameProductSearch = '';
+        }
+        // console.log(data);
+      },
+    );
+  }
   sortListProductByTypeProductName(typeProductName: string) {
     this.homeService.sortListProductByTypeProduct(typeProductName).subscribe(
       (data) => {
@@ -123,7 +324,11 @@ export class HomeComponent implements OnInit {
           this.nameProductSearch = '';
         }
         // console.log(data);
-      }
+      },
+    () => {},
+    () => {
+        this.showListSortAuntionWithTime(typeProductName);
+    }
     );
   }
 
@@ -180,17 +385,76 @@ export class HomeComponent implements OnInit {
       this.homeService.searchListProduct(nameProduct, typeProductName, this.min, this.max).subscribe(
         (data) => {
           this.products = data;
-          console.log(data);
+          // console.log(data);
         }
       );
     } else {
       this.homeService.searchListProductByPriceOver250(nameProduct, typeProductName, this.min).subscribe(
         (data) => {
           this.products = data;
-          console.log(data);
+          // console.log(data);
         }
       );
     }
   }
 
+//   showListSearchAuntionWithTime(typeProductName: string) {
+//     this.homeService.searchListProduct().subscribe(
+//       (data) => {
+//         // tslint:disable-next-line:prefer-const
+//         let products = [];
+//         const countDownDate: number[] = [];
+//         products = this.products = data;
+//         for (let i = 0; i < products.length; i++) {
+//           // tslint:disable-next-line:prefer-const
+//           countDownDate[i] = new Date(this.products[i].endDate).getTime();
+//           console.log(i + '//' + this.products[i].endDate);
+//           console.log(countDownDate[i]);
+//         }
+//         console.log(countDownDate);
+// // Update the count down every 1 second
+//         // tslint:disable-next-line:only-arrow-functions no-shadowed-variable prefer-const
+//         // for (let i = 0; i < countDownDate.length; i++) {
+//
+//         for (let j = 0; j < countDownDate.length; j++) {
+//           // tslint:disable-next-line:only-arrow-functions no-shadowed-variable
+//           (function(j) {
+//             // tslint:disable-next-line:only-arrow-functions
+//             const x = setInterval(function() {
+//               // console.log(countDownDate[j]);
+//               // Get today's date and time
+//               const now = new Date().getTime();
+//               // console.log(now);
+//               // Find the distance between now and the count down date
+//               const distance = [];
+//               // console.log(countDownDate[0]);
+//               distance[j] = countDownDate[j] - now;
+//               console.log(distance[j]);
+//               // Time calculations for days, hours, minutes and seconds
+//               const days = Math.floor(distance[j] / (1000 * 60 * 60 * 24));
+//               const hours = Math.floor((distance[j] % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+//               const minutes = Math.floor((distance[j] % (1000 * 60 * 60)) / (1000 * 60));
+//               const seconds = Math.floor((distance[j] % (1000 * 60)) / 1000);
+//
+//               // If the count down is finished, write some text
+//               if (distance[j] < 0) {
+//                 clearInterval(x);
+//                 products[j].remainingTime = document.getElementById('time-remain').innerHTML = 'FINISHED';
+//               } else {
+//                 // Display the result in the element with id="demo"
+//                 products[j].remainingTime = document.getElementById('time-remain').innerHTML = days + 'd ' + hours + 'h '
+//                   + minutes + 'm ' + seconds + 's ';
+//               }
+//             }, 1000);
+//           })(j);
+//           // }
+//         }
+//
+//         if (this.nameProductSearch != null) {
+//           this.nameProductSearch = '';
+//         }
+//         // console.log(data);
+//       },
+//     );
+//   }
 }
