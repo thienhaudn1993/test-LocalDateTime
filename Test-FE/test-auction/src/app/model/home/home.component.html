@@ -1,4 +1,4 @@
-<script src="src/assets/js/remaining-time-home.js"></script>
+<!--<script src="src/assets/js/remaining-time-home.js"></script>-->
 <div id="main">
   <div id="slider">
     <div class="text-slider">
@@ -15,7 +15,8 @@
         <label for="input-name">
           <span>Enter product name:</span>
         </label>
-        <input [(ngModel)]="nameProductSearch" id="input-name" type="text" placeholder=" Name product..." formControlName="nameProduct">
+        <input [(ngModel)]="nameProductSearch" id="input-name" type="text" placeholder=" Name product..."
+               formControlName="nameProduct">
 
         <select name="category-list" id="category-list" class="category-list" formControlName="typeProductname">
           <option value="">All categories</option>
@@ -45,7 +46,8 @@
 
 
       <!-- Start Modal -->
-      <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+           aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -135,8 +137,9 @@
                 <div>TIME LEFT: <span style="color: #fff;" id="time-remain">{{product.remainingTime}}</span></div>
               </div>
               <div class="product-image">
-<!--                <a href="/"><img src="https://firebasestorage.googleapis.com/v0/b/a0721i1.appspot.com/o/A0721I1-croissant-trung-muoi_880850.jpg?alt=media&token=6c43c7ca-a6a9-4550-8b3c-44ce5832b12d" alt="Flycame"></a>-->
-                <a href="/"><img [src]="product.imageProductList.imageProduct" alt="Flycame" onError="this.src='./assets/home-header/image/Image_not_available.png'"></a>
+                <!--                <a href="/"><img src="https://firebasestorage.googleapis.com/v0/b/a0721i1.appspot.com/o/A0721I1-croissant-trung-muoi_880850.jpg?alt=media&token=6c43c7ca-a6a9-4550-8b3c-44ce5832b12d" alt="Flycame"></a>-->
+                <a href="/"><img [src]="product.imageProductList.imageProduct" alt="Flycame"
+                                 onError="this.src='./assets/home-header/image/Image_not_available.png'"></a>
               </div>
               <div class="product-title">
                 <h5>
